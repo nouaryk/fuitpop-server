@@ -1,0 +1,56 @@
+
+/* Panels Style*/
+/* •••••••••••••••••••••••••••••••• */
+
+/* Common panel style */
+.panel {
+align-items: center;
+justify-content: center;
+flex-direction: column;
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+margin-top: 20px;
+overflow: auto;
+z-index: 2;
+color: #000;
+background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,#CFD8DC 100%); }
+
+
+/* panel content (only for animation delay after open) */
+.panel-content {
+opacity: 0;
+will-change: margin-top;
+transition: all 700ms; 
+transition-delay: 600ms;}
+
+/* Panel content animation after open */
+.panel:target .panel-content {
+opacity: 1;
+margin-top: 0; }
+
+.navbar {
+    z-index: 3;
+}
+
+/*  Specific "Home "panel */
+/* •••••••••••••••••••••••••••••••• */
+
+.panel#daily {
+z-index: 1;
+}
+
+/*  Specific panel "Fade" effect */
+/* •••••••••••••••••••••••••••••••• */
+
+.panel#championship {
+opacity: 0;
+transition: all 800ms;
+pointer-events: none; 
+background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,rgb(223, 212, 177) 100%);}
+
+.panel#championship:target {
+opacity: 1;
+pointer-events: auto; }

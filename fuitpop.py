@@ -1,4 +1,4 @@
-import tweepy, datetime, json, io
+import tweepy, datetime, json, io, urllib.request, unicodedata
 
 # tweepy OAuth keys
 consumer_key = '3futuKPmSNvjUz1HlZrzBMuqG'
@@ -7,23 +7,20 @@ key = '1081355326094434304-xg3gZhpKkZLwCYtan5u0R8ninEe1lN'
 secret = 'kl7bo0aWdCI6VyylpCbjVzjkcBSlbIgFUDqd2kK7FxJKj'
 
 # global vars
-drivers = [
-               ['Lewis', 'Hamilton', '@lewishamilton'], ['Sebastian', 'Vettel', '#SV5'],
-               ['Kimi', 'Raikkonen', '@RaikkonenOficia'], ['Max', 'Verstappen', '@max33verstappen'],
-               ['Valtteri', 'Bottas', '@valtteribottas'], ['Daniel', 'Ricciardo', '@danielricciardo'],
-               ['Nico', 'Hulkenberg', '@HulkHulkenberg'], ['Sergio', 'Perez', '@SChecoPerez'],
-               ['Kevin', 'Magnussen', '@kevinmagnussen'], ['Carlos', 'Sainz', '@Carlossainz55'],
-               ['Lando', 'Norris', '@LandoNorris'], ['Lance', 'Stroll', '@lance_stroll'],
-               ['Charles', 'Leclerc', '@Charles_Leclerc'], ['Romain', 'Grosjean', '@RGrosjean'],
-               ['Pierre', 'Gasly', '@PierreGASLY'], ['Antonio', 'Giovinazzi', '@AntoGiovinazzi'],
-               ['Alexander', 'Albon', '@alex_albon'], ['Daniil', 'Kvyat', '@kvyatofficial'],
-               ['Robert', 'Kubica', '@R_Kubica'], ['George', 'Russell', '@GeorgeRussell63']
-           ]
-queries = ['#F1', '@F1', '@SkySportsF1']
-driver_tally = [0] * len(drivers)
+drivers = {}
+tracks = {}
+queries = ['#F1']
+driver_tally = [0]
 num_tweets_scanned = 0
 now = datetime.datetime.now()
 cutoff_date = now - datetime.timedelta(days=1)
+
+
+# remove accents from input string
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
+
 
 # return the normalised Levenshtein distance between two strings
 def levenshtein_distance(a, b):
@@ -52,7 +49,7 @@ def levenshtein_distance(a, b):
 # read a tweet and find which drivers are in it
 def populate_driver_tally(twords):
     global driver_tally
-    lev_threshold = 0.7
+    lev_threshold = 0.65
     temp_tally = [0] * len(drivers)
 
     for tword in twords:
@@ -61,9 +58,14 @@ def populate_driver_tally(twords):
             driver = drivers[i]
             if temp_tally[i] == 0:
                 # search word using needles
-                if levenshtein_distance(driver[0], tword) > lev_threshold or (
-                   levenshtein_distance(driver[1], tword) > lev_threshold) or (
-                   levenshtein_distance(driver[2], tword) > lev_threshold):
+                firstName = remove_accents(driver['givenName'])
+                lastName = remove_accents(driver['familyName'])
+                if levenshtein_distance(firstName, tword) > lev_threshold or (
+                   levenshtein_distance(lastName, tword) > lev_threshold) or (
+                   levenshtein_distance(firstName + lastName, tword) > lev_threshold) or (
+                   levenshtein_distance(driver['code'], tword) > lev_threshold) or (
+                   levenshtein_distance(driver['familyName'], tword) > lev_threshold
+                ):
                     driver_tally[i] += 1
                     temp_tally[i] = 1
 
@@ -71,7 +73,7 @@ def populate_driver_tally(twords):
 def bubble_sort_by_tally(alist):
     for passnum in range(len(alist) - 1, 0, -1):
         for i in range(passnum):
-            if alist[i]["Tally"] > alist[i + 1]["Tally"]:
+            if alist[i]["Tally"] < alist[i + 1]["Tally"]:
                 temp = alist[i]
                 alist[i] = alist[i + 1]
                 alist[i + 1] = temp
@@ -82,8 +84,8 @@ def save_tally():
     # create driver dictionaries for json conversion
     drivers_list = []
     for i in range(len(drivers)):
-        driver_temp = {"First Name:": drivers[i][0], "Last Name:": drivers[i][1], "Tally": driver_tally[i]}
-        drivers_list.append(driver_temp)
+        drivers_list.append({"First Name:": drivers[i]['givenName'], "Last Name:": drivers[i]['familyName'],
+                       "Tally": driver_tally[i], "Code": drivers[i]['code']})
 
     # write JSON file
     sorted_drivers = bubble_sort_by_tally(drivers_list)
@@ -102,6 +104,59 @@ def scan_tweets(tweets):
     global num_tweets_scanned
     num_tweets_scanned += len(tweets)
 
+#CHANGE YEAR
+def get_drivers():
+    global drivers
+    with urllib.request.urlopen('http://ergast.com/api/f1/' + str(now.year-1) + '/drivers.json') as url:
+        data = json.loads(url.read().decode())
+        drivers = data['MRData']['DriverTable']['Drivers']
+
+
+def get_tracks():
+    global tracks, queries
+    with urllib.request.urlopen('http://ergast.com/api/f1/' + str(now.year-1) + '.json') as url:
+        data = json.loads(url.read().decode())
+        tracks = data['MRData']['RaceTable']['Races']
+
+        # append grand prix hashtags to queries
+        for track in tracks:
+            raceName = track['raceName']
+            t = raceName.split(" ")[:-2]
+            hashtag = '#' + "".join(t) + "GP"
+            queries.append(hashtag)
+
+
+
+def update_championship():
+    # create championship points placeholder
+    drivers_championship = {}
+    points_system = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+    for driver in drivers:
+        drivers_championship.update({driver['code']: {"First Name": driver['givenName'], "Last Name": driver['familyName'], "Points": 0}})
+
+    # calculate championship points using currently stored data
+    for track in tracks:
+        # check if data on day after a grand prix exists
+        targetDate = datetime.datetime.strptime(track['date'], "%Y-%m-%d") + datetime.timedelta(days=1)
+        try:
+            with open(datetime.datetime.strftime(targetDate, "%Y-%m-%d") + '.json', 'r') as f:
+                gp_driver_tally = json.load(f)
+        except FileNotFoundError:
+            break  # no more grand prix data after this date
+
+        # update championship placeholder
+        for x in range(len(gp_driver_tally)):
+            # points for the first 10 drivers
+            if x < len(points_system):
+                driverCode = gp_driver_tally[x]['Code']
+                points_dict = {'Points': points_system[x] + drivers_championship[driverCode]['Points']}
+                drivers_championship[driverCode].update(points_dict)
+
+    # save new championship
+    with io.open('Championship.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps(drivers_championship, indent=4, separators=(',', ': '))
+        outfile.write(str_)
+
 
 def main():
     # access the API
@@ -109,13 +164,20 @@ def main():
     auth.set_access_token(key, secret)
     api = tweepy.API(auth)
 
+    # get the drivers to be searched, and race calendar for querying
+    get_drivers()
+    global driver_tally
+    driver_tally = [0] * len(drivers)
+
     # run the search queries
-    for query in queries:
-        # pagination
-        for page in tweepy.Cursor(api.search, q=query, count=100, result_type='recent').pages(3):
-            scan_tweets(page)
+    print('Scanning tweets...')
+    query = "+".join(queries)       # OR operator for tags
+    for page in tweepy.Cursor(api.search, q=query, count=100, result_type='recent').pages(3):
+        scan_tweets(page)
+
     save_tally()
-    print(driver_tally, 'out of', num_tweets_scanned, 'tweets scanned.')
+    update_championship()
+    print(num_tweets_scanned, 'tweets have been scanned.')
 
 
 if __name__ == "__main__":
