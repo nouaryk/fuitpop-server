@@ -1,0 +1,102 @@
+[
+    {
+        "First Name": "Lewis",
+        "Last Name": "Hamilton",
+        "Points": 25
+    },
+    {
+        "First Name": "Fernando",
+        "Last Name": "Alonso",
+        "Points": 18
+    },
+    {
+        "First Name": "Daniel",
+        "Last Name": "Ricciardo",
+        "Points": 15
+    },
+    {
+        "First Name": "Charles",
+        "Last Name": "Leclerc",
+        "Points": 12
+    },
+    {
+        "First Name": "Esteban",
+        "Last Name": "Ocon",
+        "Points": 10
+    },
+    {
+        "First Name": "Pierre",
+        "Last Name": "Gasly",
+        "Points": 8
+    },
+    {
+        "First Name": "Kimi",
+        "Last Name": "Raikkonen",
+        "Points": 6
+    },
+    {
+        "First Name": "Carlos",
+        "Last Name": "Sainz",
+        "Points": 4
+    },
+    {
+        "First Name": "Sebastian",
+        "Last Name": "Vettel",
+        "Points": 2
+    },
+    {
+        "First Name": "Marcus",
+        "Last Name": "Ericsson",
+        "Points": 1
+    },
+    {
+        "First Name": "Max",
+        "Last Name": "Verstappen",
+        "Points": 0
+    },
+    {
+        "First Name": "Stoffel",
+        "Last Name": "Vandoorne",
+        "Points": 0
+    },
+    {
+        "First Name": "Lance",
+        "Last Name": "Stroll",
+        "Points": 0
+    },
+    {
+        "First Name": "Sergey",
+        "Last Name": "Sirotkin",
+        "Points": 0
+    },
+    {
+        "First Name": "Sergio",
+        "Last Name": "Perez",
+        "Points": 0
+    },
+    {
+        "First Name": "Kevin",
+        "Last Name": "Magnussen",
+        "Points": 0
+    },
+    {
+        "First Name": "Nico",
+        "Last Name": "Hulkenberg",
+        "Points": 0
+    },
+    {
+        "First Name": "Brendon",
+        "Last Name": "Hartley",
+        "Points": 0
+    },
+    {
+        "First Name": "Romain",
+        "Last Name": "Grosjean",
+        "Points": 0
+    },
+    {
+        "First Name": "Valtteri",
+        "Last Name": "Bottas",
+        "Points": 0
+    }
+]
