@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import tweepy
 import datetime
 import json
@@ -177,18 +175,8 @@ def update_championship():
     # create championship points placeholder
 
     drivers_championship = []
-    points_system = [
-        25,
-        18,
-        15,
-        12,
-        10,
-        8,
-        6,
-        4,
-        2,
-        1,
-        ]
+    points_system = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+
     for driver in drivers:
         drivers_championship.insert(0,
                                     {'First Name': remove_accents(driver['givenName'
@@ -200,7 +188,7 @@ def update_championship():
 
     for track in tracks:
 
-        # check if data exists on day after a grand prix exists
+        # check if data exists the day after a grand prix
 
         targetDate = datetime.datetime.strptime(track['date'],
                 '%Y-%m-%d') + datetime.timedelta(days=1)
@@ -211,8 +199,6 @@ def update_championship():
                 gp_driver_tally = json.load(f)
         except FileNotFoundError:
             break  # no more grand prix data after this date
-
-        print gp_driver_tally
 
         # update championship placeholder points
 
@@ -258,10 +244,10 @@ def main():
 
     # run the search queries
 
-    print 'Scanning tweets...'
+    print('Scanning tweets...')
     query = ' OR '.join(queries)  # OR operator for tags
     for page in tweepy.Cursor(api.search, q=query, count=100,
-                              result_type='recent').pages(3):
+                              result_type='recent').pages(44):
         scan_tweets(page)
 
     save_tally()

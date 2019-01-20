@@ -2,17 +2,17 @@
     "MRData": {
         "xmlns": "http://ergast.com/mrd/1.4",
         "series": "f1",
-        "url": "http://ergast.com/api/f1/2018.json",
+        "url": "http://ergast.com/api/f1/2019.json",
         "limit": "30",
         "offset": "0",
         "total": "21",
         "RaceTable": {
-            "season": "2018",
+            "season": "2019",
             "Races": [
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "1",
-                    "url": "https://en.wikipedia.org/wiki/2018_Australian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Australian_Grand_Prix",
                     "raceName": "Australian Grand Prix",
                     "Circuit": {
                         "circuitId": "albert_park",
@@ -25,13 +25,13 @@
                             "country": "Australia"
                         }
                     },
-                    "date": "2018-03-25",
+                    "date": "2019-03-17",
                     "time": "05:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "2",
-                    "url": "https://en.wikipedia.org/wiki/2018_Bahrain_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Bahrain_Grand_Prix",
                     "raceName": "Bahrain Grand Prix",
                     "Circuit": {
                         "circuitId": "bahrain",
@@ -44,13 +44,13 @@
                             "country": "Bahrain"
                         }
                     },
-                    "date": "2018-04-08",
+                    "date": "2019-03-31",
                     "time": "15:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "3",
-                    "url": "https://en.wikipedia.org/wiki/2018_Chinese_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Chinese_Grand_Prix",
                     "raceName": "Chinese Grand Prix",
                     "Circuit": {
                         "circuitId": "shanghai",
@@ -63,13 +63,13 @@
                             "country": "China"
                         }
                     },
-                    "date": "2018-04-15",
+                    "date": "2019-04-14",
                     "time": "06:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "4",
-                    "url": "https://en.wikipedia.org/wiki/2018_Azerbaijan_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Azerbaijan_Grand_Prix",
                     "raceName": "Azerbaijan Grand Prix",
                     "Circuit": {
                         "circuitId": "BAK",
@@ -82,13 +82,13 @@
                             "country": "Azerbaijan"
                         }
                     },
-                    "date": "2018-04-29",
+                    "date": "2019-04-28",
                     "time": "12:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "5",
-                    "url": "https://en.wikipedia.org/wiki/2018_Spanish_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Spanish_Grand_Prix",
                     "raceName": "Spanish Grand Prix",
                     "Circuit": {
                         "circuitId": "catalunya",
@@ -101,13 +101,13 @@
                             "country": "Spain"
                         }
                     },
-                    "date": "2018-05-13",
+                    "date": "2019-05-12",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "6",
-                    "url": "https://en.wikipedia.org/wiki/2018_Monaco_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Monaco_Grand_Prix",
                     "raceName": "Monaco Grand Prix",
                     "Circuit": {
                         "circuitId": "monaco",
@@ -120,13 +120,13 @@
                             "country": "Monaco"
                         }
                     },
-                    "date": "2018-05-27",
+                    "date": "2019-05-26",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "7",
-                    "url": "https://en.wikipedia.org/wiki/2018_Canadian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Canadian_Grand_Prix",
                     "raceName": "Canadian Grand Prix",
                     "Circuit": {
                         "circuitId": "villeneuve",
@@ -139,13 +139,13 @@
                             "country": "Canada"
                         }
                     },
-                    "date": "2018-06-10",
+                    "date": "2019-06-09",
                     "time": "18:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "8",
-                    "url": "https://en.wikipedia.org/wiki/2018_French_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_French_Grand_Prix",
                     "raceName": "French Grand Prix",
                     "Circuit": {
                         "circuitId": "ricard",
@@ -158,13 +158,13 @@
                             "country": "France"
                         }
                     },
-                    "date": "2018-06-24",
+                    "date": "2019-06-23",
                     "time": "14:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "9",
-                    "url": "https://en.wikipedia.org/wiki/2018_Austrian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Austrian_Grand_Prix",
                     "raceName": "Austrian Grand Prix",
                     "Circuit": {
                         "circuitId": "red_bull_ring",
@@ -177,13 +177,13 @@
                             "country": "Austria"
                         }
                     },
-                    "date": "2018-07-01",
+                    "date": "2019-06-30",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "10",
-                    "url": "https://en.wikipedia.org/wiki/2018_British_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_British_Grand_Prix",
                     "raceName": "British Grand Prix",
                     "Circuit": {
                         "circuitId": "silverstone",
@@ -196,13 +196,13 @@
                             "country": "UK"
                         }
                     },
-                    "date": "2018-07-08",
+                    "date": "2019-07-14",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "11",
-                    "url": "https://en.wikipedia.org/wiki/2018_German_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_German_Grand_Prix",
                     "raceName": "German Grand Prix",
                     "Circuit": {
                         "circuitId": "hockenheimring",
@@ -215,13 +215,13 @@
                             "country": "Germany"
                         }
                     },
-                    "date": "2018-07-22",
+                    "date": "2019-07-28",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "12",
-                    "url": "https://en.wikipedia.org/wiki/2018_Hungarian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Hungarian_Grand_Prix",
                     "raceName": "Hungarian Grand Prix",
                     "Circuit": {
                         "circuitId": "hungaroring",
@@ -234,13 +234,13 @@
                             "country": "Hungary"
                         }
                     },
-                    "date": "2018-07-29",
+                    "date": "2019-08-04",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "13",
-                    "url": "https://en.wikipedia.org/wiki/2018_Belgian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Belgian_Grand_Prix",
                     "raceName": "Belgian Grand Prix",
                     "Circuit": {
                         "circuitId": "spa",
@@ -253,13 +253,13 @@
                             "country": "Belgium"
                         }
                     },
-                    "date": "2018-08-26",
+                    "date": "2019-09-01",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "14",
-                    "url": "https://en.wikipedia.org/wiki/2018_Italian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Italian_Grand_Prix",
                     "raceName": "Italian Grand Prix",
                     "Circuit": {
                         "circuitId": "monza",
@@ -272,13 +272,13 @@
                             "country": "Italy"
                         }
                     },
-                    "date": "2018-09-02",
+                    "date": "2019-09-08",
                     "time": "13:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "15",
-                    "url": "https://en.wikipedia.org/wiki/2018_Singapore_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Singapore_Grand_Prix",
                     "raceName": "Singapore Grand Prix",
                     "Circuit": {
                         "circuitId": "marina_bay",
@@ -291,13 +291,13 @@
                             "country": "Singapore"
                         }
                     },
-                    "date": "2018-09-16",
+                    "date": "2019-09-22",
                     "time": "12:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "16",
-                    "url": "https://en.wikipedia.org/wiki/2018_Russian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Russian_Grand_Prix",
                     "raceName": "Russian Grand Prix",
                     "Circuit": {
                         "circuitId": "sochi",
@@ -310,13 +310,13 @@
                             "country": "Russia"
                         }
                     },
-                    "date": "2018-09-30",
+                    "date": "2019-09-29",
                     "time": "11:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "17",
-                    "url": "https://en.wikipedia.org/wiki/2018_Japanese_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Japanese_Grand_Prix",
                     "raceName": "Japanese Grand Prix",
                     "Circuit": {
                         "circuitId": "suzuka",
@@ -329,32 +329,13 @@
                             "country": "Japan"
                         }
                     },
-                    "date": "2018-10-07",
+                    "date": "2019-10-13",
                     "time": "05:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "18",
-                    "url": "https://en.wikipedia.org/wiki/2018_United_States_Grand_Prix",
-                    "raceName": "United States Grand Prix",
-                    "Circuit": {
-                        "circuitId": "americas",
-                        "url": "http://en.wikipedia.org/wiki/Circuit_of_the_Americas",
-                        "circuitName": "Circuit of the Americas",
-                        "Location": {
-                            "lat": "30.1328",
-                            "long": "-97.6411",
-                            "locality": "Austin",
-                            "country": "USA"
-                        }
-                    },
-                    "date": "2018-10-21",
-                    "time": "18:10:00Z"
-                },
-                {
-                    "season": "2018",
-                    "round": "19",
-                    "url": "https://en.wikipedia.org/wiki/2018_Mexican_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Mexican_Grand_Prix",
                     "raceName": "Mexican Grand Prix",
                     "Circuit": {
                         "circuitId": "rodriguez",
@@ -367,13 +348,32 @@
                             "country": "Mexico"
                         }
                     },
-                    "date": "2018-10-28",
+                    "date": "2019-10-27",
                     "time": "19:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
+                    "round": "19",
+                    "url": "https://en.wikipedia.org/wiki/2019_United_States_Grand_Prix",
+                    "raceName": "United States Grand Prix",
+                    "Circuit": {
+                        "circuitId": "americas",
+                        "url": "http://en.wikipedia.org/wiki/Circuit_of_the_Americas",
+                        "circuitName": "Circuit of the Americas",
+                        "Location": {
+                            "lat": "30.1328",
+                            "long": "-97.6411",
+                            "locality": "Austin",
+                            "country": "USA"
+                        }
+                    },
+                    "date": "2019-11-03",
+                    "time": "18:10:00Z"
+                },
+                {
+                    "season": "2019",
                     "round": "20",
-                    "url": "https://en.wikipedia.org/wiki/2018_Brazilian_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Brazilian_Grand_Prix",
                     "raceName": "Brazilian Grand Prix",
                     "Circuit": {
                         "circuitId": "interlagos",
@@ -386,13 +386,13 @@
                             "country": "Brazil"
                         }
                     },
-                    "date": "2018-11-11",
+                    "date": "2019-11-17",
                     "time": "17:10:00Z"
                 },
                 {
-                    "season": "2018",
+                    "season": "2019",
                     "round": "21",
-                    "url": "https://en.wikipedia.org/wiki/2018_Abu_Dhabi_Grand_Prix",
+                    "url": "https://en.wikipedia.org/wiki/2019_Abu_Dhabi_Grand_Prix",
                     "raceName": "Abu Dhabi Grand Prix",
                     "Circuit": {
                         "circuitId": "yas_marina",
@@ -405,7 +405,7 @@
                             "country": "UAE"
                         }
                     },
-                    "date": "2018-11-25",
+                    "date": "2019-12-01",
                     "time": "13:10:00Z"
                 }
             ]
