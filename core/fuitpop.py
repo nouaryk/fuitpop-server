@@ -1,13 +1,12 @@
-import tweepy
-import datetime
-import json
-import io
-import urllib.request
-import unicodedata
-import os
-from dotenv import load_dotenv
+#   Author: Brendon McBain
+#   Description: Twitter driver popularity script
+#   Dependencies: tweepy, dotenv, textblob, python 3.6
 
-# tweepy OAuth keys
+import tweepy, datetime, json, io, urllib.request, unicodedata, os
+from dotenv import load_dotenv
+from textblob import TextBlob
+
+# tweepy OAuth keys from .env
 load_dotenv()
 consumer_key = os.getenv('CONSUMER_KEY')
 consumer_secret = os.getenv('CONSUMER_SECRET')
@@ -15,12 +14,15 @@ key = os.getenv('ACCESS_TOKEN')
 secret = os.getenv('ACCESS_TOKEN_SECRET')
 
 # global vars
-drivers = {}
-tracks = {}
 queries = ['#F1']
 num_query_pages = 44
-driver_tally = [0]
 num_tweets_scanned = 0
+
+drivers = {}
+tracks = {}
+driver_tally = [0]
+driver_polarity = [0]
+
 now = datetime.datetime.now()
 cutoff_date = now - datetime.timedelta(days=1)
 
@@ -57,11 +59,14 @@ def levenshtein_distance(a, b):
     return (norm - previous_row[-1]) / norm
 
 
-# read a tweet and find which drivers are in it
-def populate_driver_tally(twords):
-    global driver_tally
+# read a tweet and find which drivers are in it and its polarity
+def populate_driver_tally(tweet):
+    global driver_tally, driver_polarity
     lev_threshold = 0.65
     temp_tally = [0] * len(drivers)
+    blob = TextBlob(tweet.text)
+    twords = blob.words
+    polarity = (blob.sentiment.polarity + 1)/2     # normalised polarity
 
     for tword in twords:
         for i in range(len(drivers)):
@@ -83,6 +88,7 @@ def populate_driver_tally(twords):
                     or levenshtein_distance(driver['familyName'],
                         tword) > lev_threshold:
                     driver_tally[i] += 1
+                    driver_polarity[i] = (driver_polarity[i] + polarity)/2      # update polarity by averaging
                     temp_tally[i] = 1
 
 
@@ -106,16 +112,15 @@ def save_tally():
             'lastName': remove_accents(drivers[i]['familyName']),
             'tally': driver_tally[i],
             'code': drivers[i]['code'],
+            'polarity': driver_polarity[i]
             })
 
     # write JSON file
     sorted_drivers = bubble_sort_by(drivers_list, 'tally')
     wrapped_json = {'drivers': sorted_drivers}
     filename = now.strftime('%Y-%m-%d')
-    with io.open('data/' + filename + '.json', 'w', encoding='utf8') as \
-        outfile:
-        str_ = json.dumps(wrapped_json, indent=4, separators=(',',
-                          ': '))
+    with io.open('data/' + filename + '.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps(wrapped_json, indent=4, separators=(',',  ': '))
         outfile.write(str_)
 
 
@@ -126,8 +131,7 @@ def scan_tweets(tweets):
         if cutoff_date.year == tweet.created_at.year \
             and cutoff_date.month == tweet.created_at.month \
             and tweet.created_at.day >= cutoff_date.day:
-            tweet_words = tweet.text.split(' ')
-            populate_driver_tally(tweet_words)
+            populate_driver_tally(tweet)
     global num_tweets_scanned
     num_tweets_scanned += len(tweets)
 
@@ -199,13 +203,11 @@ def update_championship():
             # find the driver index
             ind = 0
             for y in range(len(drivers_championship)):
-                if gp_driver_tally[x]['firstName'] \
-                    == drivers_championship[y]['firstName']:
+                if gp_driver_tally[x]['firstName'] == drivers_championship[y]['firstName']:
                     ind = y
 
             # update points
-            points_dict = {'Points': points_system[x] \
-                           + drivers_championship[ind]['points']}
+            points_dict = {'Points': points_system[x] + drivers_championship[ind]['points']}
             drivers_championship[ind].update(points_dict)
 
     # save new championship
@@ -232,8 +234,11 @@ def main():
     # get the drivers to be searched, and race calendar for querying
     get_drivers()
     get_tracks()
-    global driver_tally
+
+    global driver_tally, driver_polarity
     driver_tally = [0] * len(drivers)
+    driver_polarity = [0.5] * len(drivers)      # start with neutral polarity
+
     if len(drivers) == 0 or len(tracks) == 0:
         print('Ergast API did not return any data.')
         return      # empty API data, so do nothing
@@ -241,8 +246,7 @@ def main():
     # run the search queries
     print('Scanning tweets...')
     query = ' OR '.join(queries)  # OR operator for tags
-    for page in tweepy.Cursor(api.search, q=query, count=100,
-                              result_type='recent').pages(num_query_pages):
+    for page in tweepy.Cursor(api.search, q=query, count=100, result_type='recent').pages(num_query_pages):
         scan_tweets(page)
 
     save_tally()
