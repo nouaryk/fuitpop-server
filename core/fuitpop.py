@@ -103,17 +103,18 @@ def save_tally():
 
     # create driver dictionaries for json conversion
     drivers_list = []
+    tally_sum = sum(driver_tally)
     for i in range(len(drivers)):
         drivers_list.append({
             'firstName': remove_accents(drivers[i]['givenName']),
             'lastName': remove_accents(drivers[i]['familyName']),
-            'tally': driver_tally[i],
+            'popularity': driver_tally[i]/tally_sum,
             'code': drivers[i]['code'],
-            'polarity': driver_polarity[i]
+            'polarity': round(driver_polarity[i], 2)
             })
 
     # write JSON file
-    sorted_drivers = bubble_sort_by(drivers_list, 'tally')
+    sorted_drivers = bubble_sort_by(drivers_list, 'popularity')
     wrapped_json = {'drivers': sorted_drivers}
     filename = now.strftime('%Y-%m-%d')
 
