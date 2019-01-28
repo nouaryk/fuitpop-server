@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const KoaRouter = require('koa-router');
+const KoaCors = require('@koa/cors');
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
@@ -36,6 +37,10 @@ function readDir(path) {
         });
     });
 }
+
+app.use(KoaCors({
+    origin: '*'
+}));
 
 router.get('/daily', async (context) => {
 
