@@ -1,5 +1,5 @@
 #   Author: Brendon McBain
-#   Description: Twitter driver popularity script
+#   Description: Twitter driver popularity server script
 #   Dependencies: tweepy, dotenv, textblob, python 3.6
 
 import tweepy, datetime, json, io, urllib.request, unicodedata, os
@@ -78,15 +78,12 @@ def populate_driver_tally(tweet):
                 # search word using needles
                 firstName = remove_accents(driver['givenName'])
                 lastName = remove_accents(driver['familyName'])
-                if levenshtein_distance(firstName, tword) \
-                    > lev_threshold or levenshtein_distance(lastName,
-                        tword) > lev_threshold \
-                    or levenshtein_distance(firstName + lastName,
-                        tword) > lev_threshold \
-                    or levenshtein_distance(driver['code'], tword) \
-                    > lev_threshold \
-                    or levenshtein_distance(driver['familyName'],
-                        tword) > lev_threshold:
+
+                if levenshtein_distance(firstName, tword) > lev_threshold \
+                    or levenshtein_distance(lastName, tword) > lev_threshold \
+                    or levenshtein_distance(firstName + lastName, tword) > lev_threshold \
+                    or levenshtein_distance(driver['code'], tword) > lev_threshold \
+                    or levenshtein_distance(driver['familyName'], tword) > lev_threshold:
                     driver_tally[i] += 1
                     driver_polarity[i] = (driver_polarity[i] + polarity)/2      # update polarity by averaging
                     temp_tally[i] = 1
@@ -119,11 +116,12 @@ def save_tally():
     sorted_drivers = bubble_sort_by(drivers_list, 'tally')
     wrapped_json = {'drivers': sorted_drivers}
     filename = now.strftime('%Y-%m-%d')
+
     with io.open('data/' + filename + '.json', 'w', encoding='utf8') as outfile:
         str_ = json.dumps(wrapped_json, indent=4, separators=(',',  ': '))
         outfile.write(str_)
 
-
+# scan tweets filtered from the same time yesterday
 def scan_tweets(tweets):
     for tweet in tweets:
 
@@ -135,37 +133,44 @@ def scan_tweets(tweets):
     global num_tweets_scanned
     num_tweets_scanned += len(tweets)
 
-
+# get current drivers from Ergast API
 def get_drivers():
     global drivers
-    with urllib.request.urlopen('http://ergast.com/api/f1/'
-                                + str(now.year) + '/drivers.json') as \
-        url:
-        data = json.loads(url.read().decode())
-        drivers = data['MRData']['DriverTable']['Drivers']
+    data = ergast_json_request('http://ergast.com/api/f1/' + str(now.year) + '/drivers.json')
+    drivers = data['MRData']['DriverTable']['Drivers']
 
-
+# get current tracks and year calendar from Ergast API
 def get_tracks():
     global tracks, queries
-    with urllib.request.urlopen('http://ergast.com/api/f1/'
-                                + str(now.year) + '.json') as url:
-        data = json.loads(url.read().decode())
-        tracks = data['MRData']['RaceTable']['Races']
+    data = ergast_json_request('http://ergast.com/api/f1/' + str(now.year) + '.json')
+    tracks = data['MRData']['RaceTable']['Races']
 
-        # append grand prix hashtags to queries
-        for track in tracks:
-            raceName = track['raceName']
-            t = raceName.split(' ')[:-2]
-            hashtag = '#' + ''.join(t) + 'GP'
-            queries.append(hashtag)
+    # append grand prix hashtags to queries
+    for track in tracks:
+        raceName = track['raceName']
+        t = raceName.split(' ')[:-2]
+        hashtag = '#' + ''.join(t) + 'GP'
+        queries.append(hashtag)
 
-        # cache the API data for web use
-        with io.open('data/Calendar_' + str(now.year) + '.json', 'w',
-                     encoding='utf8') as outfile:
-            str_ = json.dumps(data, indent=4, separators=(',', ': '))
-            outfile.write(str_)
+    # cache the API data for web use
+    with io.open('data/Calendar_' + str(now.year) + '.json', 'w',
+                        encoding='utf8') as outfile:
+        str_ = json.dumps(data, indent=4, separators=(',', ': '))
+        outfile.write(str_)
 
 
+# request data from Ergast API with multiple tries in case of timeouts
+def ergast_json_request(addr):
+    for attempt in range(10):
+        try:
+            with urllib.request.urlopen(addr) as url:
+                return json.loads(url.read().decode())
+        except (urllib.request.HTTPError, urllib.request.URLError):
+            pass
+    return {}
+
+
+# update the twitter championship in the case yesterday was a race day
 def update_championship():
 
     # create championship points placeholder
@@ -175,10 +180,9 @@ def update_championship():
 
     for driver in drivers:
         drivers_championship.insert(0,
-                                    {'firstName': remove_accents(driver['givenName'
-                                    ]),
-                                    'lastName': remove_accents(driver['familyName'
-                                    ]), 'points': 0})
+                                    {'firstName': remove_accents(driver['givenName']),
+                                    'lastName': remove_accents(driver['familyName']),
+                                     'points': 0})
 
     # calculate championship points using currently stored data
     for track in tracks:
