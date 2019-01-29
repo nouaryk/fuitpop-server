@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
 
-const PORT = 3000;
+const PORT = 8320;
 const HOST = 'localhost';
 const DATA_DIRECTORY = path.join(__dirname, `../../core/data`);
 
