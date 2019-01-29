@@ -55,11 +55,11 @@ router.get('/daily', async (context) => {
         a = a.split('.')[0];
         b = b.split('.')[0];
 
-        const dateA = moment(a, 'YYYY-DD-MM');
-        const dateB = moment(b, 'YYYY-DD-MM');
+        const dateA = moment(a, 'YYYY-MM-DD');
+        const dateB = moment(b, 'YYYY-MM-DD');
 
-        return dateA > dateB ? 1 : -1;  
-    })
+        return dateA > dateB ? -1 : 1;  
+    });
 
     const mostRecent = fileNames[0];
 
